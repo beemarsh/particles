@@ -1,5 +1,6 @@
 #include "render/renderer.hpp"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 int main() {
 
@@ -13,7 +14,12 @@ int main() {
 
   Renderer renderer(window);
 
+  Particle circle(window);
+
+  sf::Clock clock;
+
   while (window.isOpen()) {
+    float dt = clock.restart().asSeconds();
 
     while (const std::optional event = window.pollEvent()) {
       if (event->is<sf::Event::Closed>() ||
@@ -22,8 +28,7 @@ int main() {
       }
     }
 
-
-    renderer.render();
+    renderer.render(circle, dt);
 
     window.display();
   }

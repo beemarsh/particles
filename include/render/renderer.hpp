@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Window/WindowBase.hpp>
-#include <iostream>
+#include <render/particle.hpp>
 class Renderer {
 private:
   sf::RenderTarget &target;
@@ -8,19 +7,13 @@ private:
 public:
   Renderer(sf::RenderTarget &target_) : target{target_} {}
 
-  void render() {
+  void render(Particle &particle, float &dt) {
     target.clear(sf::Color::Black);
 
-    const auto &screen_size = target.getSize();
-    const float mid_x = static_cast<float>(screen_size.x) / 2;
-    const float mid_y = static_cast<float>(screen_size.y) / 2;
+    particle.velocity = particle.velocity + particle.acceleration * dt;
 
-    sf::CircleShape circle(1.f);
-    circle.setPointCount(32);
-    circle.setPosition({mid_x, mid_y});
+    particle.position = particle.position + particle.velocity * dt;
 
-    circle.setScale({10.0f, 10.0f});
-    circle.setFillColor(sf::Color::Blue);
-    target.draw(circle);
+    particle.render();
   }
 };
