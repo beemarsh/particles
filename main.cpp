@@ -1,6 +1,5 @@
-#include "render/renderer.hpp"
+#include "render/Renderer.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 int main() {
 
@@ -14,7 +13,9 @@ int main() {
 
   Renderer renderer(window);
 
-  Particle circle(window);
+  Particles particles = Particles(window);
+
+  particles.generate(400);
 
   sf::Clock clock;
 
@@ -28,7 +29,7 @@ int main() {
       }
     }
 
-    renderer.render(circle, dt);
+    renderer.render(particles, dt);
 
     window.display();
   }
