@@ -15,7 +15,7 @@ int main() {
 
   Particles particles = Particles(window);
 
-  particles.generate(400);
+  particles.generate(100);
 
   sf::Clock clock;
 

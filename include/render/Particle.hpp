@@ -12,6 +12,8 @@ struct Particle {
 
   sf::Color color;
   int32_t radius;
+  int32_t bounce_height;
+
   sf::CircleShape shape;
   sf::RenderTarget &window;
   sf::Vector2u window_size;
@@ -26,4 +28,8 @@ struct Particle {
   void set_x(const int &_x);
 
   void set_y(const int &_y);
+
+  int32_t get_drop_height();
+
+  static bool direction_change(float a, float b);
 };

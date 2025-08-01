@@ -12,7 +12,6 @@ private:
   sf::Vector2u window_size;
   sf::Vector2f mid_screen;
 
-
 public:
   std::unordered_map<ParticleID, std::unique_ptr<Particle>> n_particles;
 
@@ -28,5 +27,5 @@ public:
 
   void drop_all(float &dt);
 
-  sf::Vector2f get_random_position();
+  sf::Vector2f get_random_position(sf::Vector2f);
 };
