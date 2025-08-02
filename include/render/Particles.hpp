@@ -12,10 +12,14 @@ private:
   sf::Vector2u window_size;
   sf::Vector2f mid_screen;
 
+  float radius;
+  sf::Shader &shader;
+
 public:
   std::unordered_map<ParticleID, std::unique_ptr<Particle>> n_particles;
 
-  Particles(sf::RenderTarget &_window);
+  Particles(sf::RenderTarget &_window, sf::Shader &_shader,
+            float _radius = 1.f);
 
   Particle *create(sf::Vector2f);
 
@@ -27,5 +31,5 @@ public:
 
   void drop_all(float &dt);
 
-  sf::Vector2f get_random_position(sf::Vector2f);
+  sf::Vector2f get_random_position();
 };

@@ -1,5 +1,8 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Shader.hpp>
+#include <cstdint>
 
 using ParticleID = int;
 struct Particle {
@@ -9,19 +12,21 @@ struct Particle {
   sf::Vector2f position;
   sf::Vector2f velocity;
   sf::Vector2f acceleration;
+  float mass;
+  int32_t point_count;
 
   sf::Color color;
-  int32_t radius;
+  float radius;
   int32_t bounce_height;
+  float smoothing_radius;
 
   sf::CircleShape shape;
   sf::RenderTarget &window;
   sf::Vector2u window_size;
-  sf::Vector2f scale;
 
-  Particle(sf::RenderTarget &window_, ParticleID _id);
+  Particle(sf::RenderTarget &window_, ParticleID _id, float _radius = 1.f);
 
-  void render();
+  void render(sf::Shader &_shader);
 
   void fall(float &dt);
 

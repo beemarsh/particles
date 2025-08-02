@@ -1,5 +1,7 @@
 #include "render/Renderer.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shader.hpp>
+#include <iostream>
 
 int main() {
 
@@ -13,9 +15,16 @@ int main() {
 
   Renderer renderer(window);
 
-  Particles particles = Particles(window);
+  sf::Shader shader;
+  if (!shader.loadFromFile("assets/shaders/particle.frag",
+                           sf::Shader::Type::Fragment)) {
+    std::cerr << "Error loading Shader" << '\n';
 
-  particles.generate(100);
+    return -1;
+  }
+
+  Particles particles = Particles(window, shader, 80.f);
+  particles.generate(300);
 
   sf::Clock clock;
 
@@ -30,6 +39,9 @@ int main() {
     }
 
     renderer.render(particles, dt);
+
+    // std::cout << particles.n_particles[0]->id << ", "
+    //           << particles.n_particles[0]->id << '\n';
 
     window.display();
   }
