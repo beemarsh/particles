@@ -24,7 +24,7 @@ int main() {
   }
 
   Particles particles = Particles(window, shader, 80.f);
-  particles.generate(300);
+  particles.generate(1000);
 
   sf::Clock clock;
 
@@ -39,9 +39,6 @@ int main() {
     }
 
     renderer.render(particles, dt);
-
-    // std::cout << particles.n_particles[0]->id << ", "
-    //           << particles.n_particles[0]->id << '\n';
 
     window.display();
   }

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "render/Particle.hpp"
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Shader.hpp>
+#include <unordered_map>
 using ParticleID = int;
 
 class Particles {

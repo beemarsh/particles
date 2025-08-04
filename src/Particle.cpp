@@ -1,6 +1,8 @@
 #include "render/Particle.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/BlendMode.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Shader.hpp>
 #include <cmath>
 #include <iostream>
@@ -18,10 +20,9 @@ bool Particle::direction_change(float a, float b) {
   return true;
 }
 Particle::Particle(sf::RenderTarget &window_, ParticleID _id, float _radius)
-    : id(_id), radius(_radius), smoothing_radius(_radius),
-      color(sf::Color::Blue), mass(1.f), velocity({0.f, 0.f}),
-      acceleration({0.f, 500.f}), point_count{32}, window(window_),
-      bounce_height(-1.f) {
+    : id(_id), radius(_radius), smoothing_radius(_radius), mass(1.f),
+      velocity({0.f, 0.f}), acceleration({0.f, 500.f}), point_count{32},
+      window(window_), bounce_height(-1.f) {
 
   // Set Position to the middle of the screen
   const auto &screen_size = window.getSize();
@@ -31,9 +32,14 @@ Particle::Particle(sf::RenderTarget &window_, ParticleID _id, float _radius)
   // float mid_y = window_size.y / 2.f;
   // position = {mid_x, mid_y};
 
+  // sf::Color bluish(30, 144, 255);
+  sf::Color bluish(0x3989e8);
+
+  color = bluish;
+
   shape = sf::CircleShape(smoothing_radius);
   shape.setPointCount(point_count);
-  shape.setFillColor(color);
+  shape.setFillColor(bluish);
 }
 
 void Particle::render(sf::Shader &shader) {
@@ -58,7 +64,12 @@ void Particle::render(sf::Shader &shader) {
 
   shader.setUniform("center", sf::Vector2f(center_pixel_pos));
   shape.setPosition(position);
-  window.draw(shape, &shader);
+
+  sf::RenderStates states;
+  states.shader = &shader;
+  states.blendMode = sf::BlendAdd;
+
+  window.draw(shape, states);
 }
 
 void Particle::fall(float &dt) {
@@ -73,7 +84,6 @@ void Particle::fall(float &dt) {
   if (bounce_height <= 0.1f) {
     return;
   } else {
-    std::cout << bounce_height << '\n';
 
     if (new_position.y >= (window_size.y - smoothing_radius * 2)) {
       velocity.y = -0.8 * std::fabs(velocity.y);
